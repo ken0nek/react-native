@@ -598,6 +598,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
 {
   UIView<RCTBackedTextInputViewProtocol> *textInputView = self.backedTextInputView;
   UIKeyboardType keyboardType = textInputView.keyboardType;
+  UIReturnKeyType returnKeyType = textInputView.returnKeyType;
 
   // These keyboard types (all are number pads) don't have a "Done" button by default,
   // so we create an `inputAccessoryView` with this button for them.
@@ -608,7 +609,10 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
        keyboardType == UIKeyboardTypeDecimalPad ||
        keyboardType == UIKeyboardTypeASCIICapableNumberPad
       ) &&
-      textInputView.returnKeyType == UIReturnKeyDone;
+      (
+       returnKeyType == UIReturnKeyDone ||
+       returnKeyType == UIReturnKeyNext
+      );
 
   if (_hasInputAccesoryView == shouldHaveInputAccesoryView) {
     return;
@@ -623,11 +627,19 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
       [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                     target:nil
                                                     action:nil];
-    UIBarButtonItem *doneButton =
-      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                    target:self
-                                                    action:@selector(handleInputAccessoryDoneButton)];
-    toolbarView.items = @[flexibleSpace, doneButton];
+    if (returnKeyType == UIReturnKeyDone) {
+      UIBarButtonItem *doneButton =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                      target:self
+                                                      action:@selector(handleInputAccessoryDoneButton)];
+      toolbarView.items = @[flexibleSpace, doneButton];
+    } else { // returnKeyType == UIReturnKeyNext
+      UIBarButtonItem *nextButton =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                      target:self
+                                                      action:@selector(handleInputAccessoryNextButton)];
+      toolbarView.items = @[flexibleSpace, nextButton];
+    }
     textInputView.inputAccessoryView = toolbarView;
   }
   else {
@@ -648,6 +660,13 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)
 {
   if ([self textInputShouldReturn]) {
     [self.backedTextInputView endEditing:YES];
+  }
+}
+
+- (void)handleInputAccessoryNextButton
+{
+  if ([self textInputShouldReturn]) {
+    // TODO: Have to find a next responder
   }
 }
 

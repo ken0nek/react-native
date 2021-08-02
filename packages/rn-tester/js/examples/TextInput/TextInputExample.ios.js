@@ -139,6 +139,30 @@ class TextInputAccessoryViewDefaultDoneButtonExample extends React.Component<
   }
 }
 
+class TextInputAccessoryViewDefaultNextButtonExample extends React.Component<
+  $ReadOnly<{|
+    keyboardType: KeyboardType,
+  |}>,
+  {text: string},
+> {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
+  render() {
+    return (
+      <TextInput
+        style={styles.default}
+        onChangeText={text => this.setState({text})}
+        value={this.state.text}
+        keyboardType={this.props.keyboardType}
+        returnKeyType="next"
+      />
+    );
+  }
+}
+
 class RewriteExampleKana extends React.Component<$FlowFixMeProps, any> {
   constructor(props) {
     super(props);
@@ -360,6 +384,28 @@ exports.examples = ([
         return (
           <WithLabel key={'keyboardType: ' + type} label={type}>
             <TextInputAccessoryViewDefaultDoneButtonExample
+              key={type}
+              keyboardType={type}
+            />
+          </WithLabel>
+        );
+      });
+      return <View>{examples}</View>;
+    },
+  },
+  {
+    title: "Default Input Accessory View with returnKeyType = 'next'",
+    render: function(): React.Node {
+      const keyboardTypesWithDoneButton = [
+        'number-pad',
+        'phone-pad',
+        'decimal-pad',
+        'ascii-capable-number-pad',
+      ];
+      const examples = keyboardTypesWithDoneButton.map(type => {
+        return (
+          <WithLabel key={'keyboardType: ' + type} label={type}>
+            <TextInputAccessoryViewDefaultNextButtonExample
               key={type}
               keyboardType={type}
             />
