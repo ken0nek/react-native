@@ -390,9 +390,16 @@ RCT_EXPORT_METHOD(scheduleLocalNotification:(JS::NativePushNotificationManagerIO
   [RCTSharedApplication() scheduleLocalNotification:[RCTConvert UILocalNotification:notificationDict]];
 }
 
+// DEPRECATED: Use `removeAllPendingNotificationRequests`
 RCT_EXPORT_METHOD(cancelAllLocalNotifications)
 {
   [RCTSharedApplication() cancelAllLocalNotifications];
+}
+
+RCT_EXPORT_METHOD(removeAllPendingNotificationRequests)
+{
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  [center removeAllPendingNotificationRequests];
 }
 
 RCT_EXPORT_METHOD(cancelLocalNotifications:(NSDictionary<NSString *, id> *)userInfo)
@@ -523,6 +530,11 @@ RCT_EXPORT_METHOD(scheduleLocalNotification:(JS::NativePushNotificationManagerIO
 }
 
 RCT_EXPORT_METHOD(cancelAllLocalNotifications)
+{
+  RCTLogError(@"Not implemented: %@", NSStringFromSelector(_cmd));
+}
+
+RCT_EXPORT_METHOD(removeAllPendingNotificationRequests)
 {
   RCTLogError(@"Not implemented: %@", NSStringFromSelector(_cmd));
 }

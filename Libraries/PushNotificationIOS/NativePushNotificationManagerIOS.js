@@ -54,7 +54,11 @@ export interface Spec extends TurboModule {
   +checkPermissions: (callback: (permissions: Permissions) => void) => void;
   +presentLocalNotification: (notification: Notification) => void;
   +scheduleLocalNotification: (notification: Notification) => void;
+  /**
+   * deprecated: Use `removeAllPendingNotificationRequests`
+   */
   +cancelAllLocalNotifications: () => void;
+  +removeAllPendingNotificationRequests: () => void;
   +cancelLocalNotifications: (userInfo: Object) => void;
   +getInitialNotification: () => Promise<?Notification>;
   +getScheduledLocalNotifications: (

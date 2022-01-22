@@ -260,6 +260,7 @@ jest
       presentLocalNotification: jest.fn(),
       scheduleLocalNotification: jest.fn(),
       cancelAllLocalNotifications: jest.fn(),
+      removeAllPendingNotificationRequests: jest.fn(),
       removeAllDeliveredNotifications: jest.fn(),
       getDeliveredNotifications: jest.fn(callback =>
         process.nextTick(() => []),
