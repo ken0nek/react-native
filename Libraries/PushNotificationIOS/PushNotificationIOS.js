@@ -246,6 +246,21 @@ class PushNotificationIOS {
   }
 
   /**
+   * Unschedules the notification requests you specify.
+   *
+   * See https://reactnative.dev/docs/pushnotificationios#removePendingNotificationRequests
+   */
+  static removePendingNotificationRequests(identifiers: Array<string>) {
+    invariant(
+      NativePushNotificationManagerIOS,
+      'PushNotificationManager is not available.',
+    );
+    NativePushNotificationManagerIOS.removePendingNotificationRequests(
+      identifiers,
+    );
+  }
+
+  /**
    * Gets the local notifications that are currently scheduled.
    *
    * See https://reactnative.dev/docs/pushnotificationios#getscheduledlocalnotifications

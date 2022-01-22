@@ -402,6 +402,7 @@ RCT_EXPORT_METHOD(removeAllPendingNotificationRequests)
   [center removeAllPendingNotificationRequests];
 }
 
+// DEPRECATED: Use `removePendingNotificationRequests`
 RCT_EXPORT_METHOD(cancelLocalNotifications:(NSDictionary<NSString *, id> *)userInfo)
 {
   for (UILocalNotification *notification in RCTSharedApplication().scheduledLocalNotifications) {
@@ -421,6 +422,12 @@ RCT_EXPORT_METHOD(cancelLocalNotifications:(NSDictionary<NSString *, id> *)userI
       [RCTSharedApplication() cancelLocalNotification:notification];
     }
   }
+}
+
+RCT_EXPORT_METHOD(removePendingNotificationRequests:(NSArray<NSString *> *)identifiers)
+{
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  [center removePendingNotificationRequestsWithIdentifiers:identifiers];
 }
 
 RCT_EXPORT_METHOD(getInitialNotification:(RCTPromiseResolveBlock)resolve
@@ -540,6 +547,11 @@ RCT_EXPORT_METHOD(removeAllPendingNotificationRequests)
 }
 
 RCT_EXPORT_METHOD(cancelLocalNotifications:(NSDictionary<NSString *, id> *)userInfo)
+{
+  RCTLogError(@"Not implemented: %@", NSStringFromSelector(_cmd));
+}
+
+RCT_EXPORT_METHOD(removePendingNotificationRequests:(NSArray<NSString *> *)identifiers)
 {
   RCTLogError(@"Not implemented: %@", NSStringFromSelector(_cmd));
 }

@@ -271,6 +271,7 @@ jest
         process.nextTick(() => callback(0)),
       ),
       cancelLocalNotifications: jest.fn(),
+      removePendingNotificationRequests: jest.fn(),
       getScheduledLocalNotifications: jest.fn(callback =>
         process.nextTick(() => callback()),
       ),
